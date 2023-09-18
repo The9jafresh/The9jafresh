@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <main>
+        <div id="disQue"></div>
+        <button id="prevBTN" onclick="prev()">Previous</button>
+        <button id="nextBTN" onclick="nextQue()">Next</button>
+        <button onclick="showScore()" id="scoreBTN">Submit</button>
+    </main>
+</body>
+<script>
+    let queCount = 0;
+    let prevBTN = document.getElementById('prevBTN');
+    let scoreBTN = document.getElementById('scoreBTN');
+    let NextBTN = document.getElementById('nextBTN');
+    let pickedAns =[]
+    let score = 0
+    prevBTN.setAttribute('disabled', true);
+    scoreBTN.style.display = "none"
+    let cbt = [
+        {
+            ques: "What is your favorite color?",
+            opt: ["Red", "Green", "Yellow", "Blue"],
+            ans: "Green",
+        },
+        {
+            ques: "What is your favorite Food?",
+            opt: ["Rice", "Pizza", "Beans", "Corn"],
+            ans: "Pizza",
+        },
+        {
+            ques: "What is your favorite Class?",
+            opt: ["CSS", "JavaScript", "HTML", "PHP"],
+            ans: "JavaScript"
+        },
+        {
+            ques: "What is your favorite car?",
+            opt: ["Toyoya", "Honda", "Mazda", "Benz"],
+            ans: "Benz",
+        },
+    ]
+
+    function showQue(){
+        disQue.innerHTML = `<h1>${queCount+1}. ${cbt[queCount].ques}</h1>`;
+        cbt[queCount].opt.forEach((el)=>{
+        disQue.innerHTML += `<input onchange="pickAns(event)" value="${el}" name="nels" type="radio"/>
+        <span>${el}</span> <br/><br/>
+        `
+      })
+    }
+    showQue()
+
+    function nextQue(){
+        prevBTN.removeAttribute("disabled");
+        if (queCount == cbt.length - 1) {
+            NextBTN.style.display = "none";
+            scoreBTN.style.display = "initial"
+            document.querySelector("button").innerHTML = "submit";
+        }
+        queCount++;
+        showQue();
+    }
+
+    function prev(){
+        queCount--;
+        if (queCount == 0){
+            prevBTN.setAttribute("disabled", true);
+        }else{}
+        showQue();
+    }
+
+    function pickAns(ev){
+        let selected = ev.target.value
+        pickedAns[queCount] = selected
+        console.log(pickedAns);
+        console.log(ev.target.value);
+    }
+
+    function showScore(){
+        cbt.forEach((el, i) =>{
+            if (el.ans == pickedAns[i]){
+                score++
+            }
+        })
+        alert(`You Scored ${score} out of ${cbt.length}`)
+    }
+
+</script>
+</html>
